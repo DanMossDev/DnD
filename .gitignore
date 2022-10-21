@@ -1,0 +1,8 @@
+.vscode/
+Library/
+*.csproj
+Logs/
+Packages/
+UserSettings/
+obj/
+Temp/
