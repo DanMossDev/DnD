@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     PlayerState currentState;
     [HideInInspector] public PlayerIdleState idleState = new PlayerIdleState();
     [HideInInspector] public PlayerMoveState moveState = new PlayerMoveState();
+    [HideInInspector] public PlayerStateCombatWait waitState = new PlayerStateCombatWait();
+    [HideInInspector] public PlayerStateCombatTurn turnState = new PlayerStateCombatTurn();
     [HideInInspector] public NavMeshAgent navMesh;
 
 
