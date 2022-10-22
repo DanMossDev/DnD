@@ -10,12 +10,24 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public PlayerMoveState moveState = new PlayerMoveState();
     [HideInInspector] public PlayerStateCombatWait waitState = new PlayerStateCombatWait();
     [HideInInspector] public PlayerStateCombatTurn turnState = new PlayerStateCombatTurn();
+    [HideInInspector] public PlayerCastingState castState = new PlayerCastingState();
     [HideInInspector] public NavMeshAgent navMesh;
+    [HideInInspector] public Ability preppedSpell;
+    [HideInInspector] public Stats stats;
+
+    public static PlayerController Instance {get; private set;}
+
+    void Awake() 
+    {
+        if (Instance != null && Instance != this)  Destroy(this); 
+        else Instance = this; 
+    }
 
 
     void Start()
     {
         navMesh = GetComponent<NavMeshAgent>();
+        stats = GetComponent<Stats>();
         currentState = idleState;
         currentState.EnterState(this);
     }
