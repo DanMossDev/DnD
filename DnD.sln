@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.Mathematics", "Unity.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.Services.Core.Telemetry", "Unity.Services.Core.Telemetry.csproj", "{8e02d00d-6d07-bf10-a111-da1e064a7e6c}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.InputSystem", "Unity.InputSystem.csproj", "{07da9bc7-44b4-5b52-0aaa-6f3a19c93729}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.VisualScripting.State", "Unity.VisualScripting.State.csproj", "{e6baac55-90c8-bf5a-4b2f-15b1e721bd1c}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.VisualScripting.Core", "Unity.VisualScripting.Core.csproj", "{03a5ba15-7feb-eb94-421c-14ce4232deec}"
@@ -96,6 +98,8 @@ Global
 		{09a657fb-f2e6-7f9f-ff5b-0870afd79b87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8e02d00d-6d07-bf10-a111-da1e064a7e6c}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8e02d00d-6d07-bf10-a111-da1e064a7e6c}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07da9bc7-44b4-5b52-0aaa-6f3a19c93729}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07da9bc7-44b4-5b52-0aaa-6f3a19c93729}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{e6baac55-90c8-bf5a-4b2f-15b1e721bd1c}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{e6baac55-90c8-bf5a-4b2f-15b1e721bd1c}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03a5ba15-7feb-eb94-421c-14ce4232deec}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

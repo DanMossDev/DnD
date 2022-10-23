@@ -19,6 +19,8 @@ public class PlayerCastingState : PlayerState
         if (Input.GetMouseButtonDown(0)) 
         {
             context.preppedSpell.Cast(context.stats, Utils.CalculateMousePosition(), context.transform);
+            if (GameController.Instance.currentState == GameController.Instance.baseState) context.ChangeState(context.idleState);
+            else context.ChangeState(context.waitState);
         }
     }
 }

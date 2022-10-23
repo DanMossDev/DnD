@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    GameState currentState;
+    [HideInInspector] public GameState currentState;
 
     [HideInInspector] public GameStateBase baseState = new GameStateBase();
     [HideInInspector] public GameStateCombat combatState = new GameStateCombat();
+
+    public static GameController Instance {get; private set;}
+    void Awake() 
+    {
+        if (Instance != null && Instance != this)  Destroy(this); 
+        else Instance = this; 
+    }
 
     private void Start()
     {
@@ -18,6 +25,7 @@ public class GameController : MonoBehaviour
     private void Update()
     {
         currentState.UpdateState(this);
+        currentState.EnterState(this);
     }
 
     public void ChangeState(GameState state)

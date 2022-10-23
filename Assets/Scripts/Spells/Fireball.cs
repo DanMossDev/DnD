@@ -10,7 +10,6 @@ public class Fireball : Ability
     float lerp;
     public override void Cast(Stats stats, Vector3 target, Transform startPos) 
     {
-        print("Hello");
         fireballInstance = Instantiate(PrefabHolder.Instance.fireball, startPos);
         targetPos = target;
         entryPos = startPos.position;
