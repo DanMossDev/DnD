@@ -23,7 +23,10 @@ public class PlayerController : MonoBehaviour
         else Instance = this; 
     }
 
-
+    void OnEnable()
+    {
+        GameStateCombat.OnEnterCombat += OnEnterCombat;
+    }
     void Start()
     {
         navMesh = GetComponent<NavMeshAgent>();
@@ -42,5 +45,11 @@ public class PlayerController : MonoBehaviour
     {
         currentState = state;
         currentState.EnterState(this);
+    }
+
+
+    void OnEnterCombat()
+    {
+        ChangeState(waitState);
     }
 }
