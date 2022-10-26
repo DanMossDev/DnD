@@ -4,10 +4,34 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
+    [Tooltip("The speed at which the camera will move when not following the player")]
+    [SerializeField] float cameraSpeed = 5;
+    [Tooltip("The player character")]
     [SerializeField] GameObject player;
+    bool isLocked = true;
 
-    void Update()
+    void Awake()
     {
-        transform.position = player.transform.position;
+        Cursor.lockState = CursorLockMode.Confined;
+    }
+    void FixedUpdate()
+    {
+
+        if (Input.mousePosition.x > Screen.width - 10 || Input.mousePosition.x < 10 || Input.mousePosition.y > Screen.height - 10 || Input.mousePosition.y < 10)
+        {
+            isLocked = false;
+            transform.position = Vector3.MoveTowards(transform.position, Utils.CalculateMousePosition(), cameraSpeed * Time.deltaTime);
+        }
+        if (isLocked) 
+        {
+            transform.position = player.transform.position;
+            return;
+        }
+    }
+
+    public void OnLockCamera()
+    {
+        print("Test");
+        isLocked = true;
     }
 }
