@@ -269,7 +269,6 @@ GameObject:
   - component: {fileID: 187370349}
   - component: {fileID: 187370350}
   - component: {fileID: 187370351}
-  - component: {fileID: 187370352}
   - component: {fileID: 187370353}
   - component: {fileID: 187370354}
   m_Layer: 0
@@ -332,22 +331,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &187370352
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 187370348}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 366506e809f6e0e42a06866b97d1a2ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Spells:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!114 &187370353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,12 +343,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f832c7834a496454eb8ff7224bf14db2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseStrength: 5
+  baseDexterity: 5
+  baseFortitude: 5
+  baseIntelligence: 5
+  baseAgility: 10
+  basePerception: 5
   Strength: 5
   Dexterity: 5
   Fortitude: 5
   Intelligence: 5
   Agility: 5
   Perception: 5
+  MaxHP: 0
+  CurrentHP: 0
 --- !u!114 &187370354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3941,6 +3932,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2002406352}
   - component: {fileID: 2002406351}
+  - component: {fileID: 2002406353}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -3961,6 +3953,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMoving: 0
+  isEnemy: 0
+  aggroRange: 10
   patrolPoints: []
   spells:
   - {fileID: 602702325}
@@ -3981,6 +3975,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2002406353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2002406350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f832c7834a496454eb8ff7224bf14db2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseStrength: 5
+  baseDexterity: 5
+  baseFortitude: 5
+  baseIntelligence: 5
+  baseAgility: 5
+  basePerception: 5
+  Strength: 5
+  Dexterity: 5
+  Fortitude: 5
+  Intelligence: 5
+  Agility: 5
+  Perception: 5
+  MaxHP: 0
+  CurrentHP: 0
 --- !u!1 &2045543626
 GameObject:
   m_ObjectHideFlags: 0

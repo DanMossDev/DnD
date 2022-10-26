@@ -10,6 +10,8 @@ public class EnemyController : MonoBehaviour
         Ranged
     }
     public bool isMoving = false;
+    public bool isEnemy = false;
+    public float aggroRange = 10;
     public Vector3[] patrolPoints;
     public Ability[] spells;
     [SerializeField] Options option;
@@ -19,6 +21,7 @@ public class EnemyController : MonoBehaviour
     [HideInInspector] public EnemyAgro agroState = new EnemyAgro();
     [HideInInspector] public EnemyRanged rangedState = new EnemyRanged();
     [HideInInspector] public EnemyFlee fleeState = new EnemyFlee();
+    //[HideInInspector] public EnemyWait waitState = new EnemyWait();
 
 
     Vector3 startPoint;
@@ -43,6 +46,12 @@ public class EnemyController : MonoBehaviour
 
     public void EnterCombat()
     {
+        Collider[] nearbyAllies = Physics.OverlapSphere(transform.position, aggroRange * 2, gameObject.layer); //Checks for nearby game objects on the same layer in their aggro range doubled
+        foreach (Collider ally in nearbyAllies)
+        {
+            ally.gameObject.GetComponent<EnemyController>().EnterCombat();
+        }
+        
         switch (option)
         {
             case Options.Aggresive:
@@ -51,6 +60,18 @@ public class EnemyController : MonoBehaviour
             case Options.Ranged:
                 ChangeState(rangedState);
                 break;
+        }
+
+        if (GameController.Instance.currentState != GameController.Instance.combatState) GameController.Instance.ChangeState(GameController.Instance.combatState);
+    }
+
+    public void CheckForPlayer()
+    {
+        if (!isEnemy) return;
+
+        if (Physics.OverlapSphere(transform.position, aggroRange, LayerMask.GetMask("Player")).Length != 0) //checks if the player is within aggro range
+        {
+            EnterCombat();
         }
     }
 }

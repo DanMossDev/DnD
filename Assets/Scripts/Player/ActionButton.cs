@@ -24,6 +24,7 @@ public class ActionButton : MonoBehaviour, IDropHandler
 
     public void PrepSpell()
     {
+        if (PlayerController.Instance.currentState == PlayerController.Instance.waitState) return;
         PlayerController.Instance.preppedSpell = CurrentSpell;
         PlayerController.Instance.ChangeState(PlayerController.Instance.castState);
     }

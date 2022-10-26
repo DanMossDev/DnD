@@ -4,24 +4,45 @@ using UnityEngine;
 
 public class PlayerStateCombatTurn : PlayerState
 {
-    int movement;
-    Vector3 targetPoint;
+    Vector3 target;
+    float distanceCheck = 0;
+    float remainingDistance;
+    bool isWalking = false;
     public override void EnterState(PlayerController context)
     {
-        movement = 4;
+        remainingDistance = context.stats.Agility;
+        Debug.Log("Remaining Distance Init: " + remainingDistance);
     }
     public override void UpdateState(PlayerController context) 
     {
-        if (Input.GetMouseButtonDown(1)) ShowOptions();
+        if (Input.GetMouseButtonDown(1) && remainingDistance > 0) WalkHere(context);
+        if (!isWalking) return;
+
+        if (distanceCheck != 0 && context.navMesh.remainingDistance <= distanceCheck) {
+            context.navMesh.destination = context.transform.position;
+            remainingDistance = 0;
+            isWalking = false;
+        }
+        if (context.navMesh.remainingDistance <= Mathf.Epsilon && remainingDistance > 0) isWalking = false;
     }
 
-    void ShowOptions()
+    void WalkHere(PlayerController context)
     {
-        targetPoint = Utils.CalculateMousePosition();
+        distanceCheck = 0;
+        Vector3 temp = Utils.CalculateMousePosition();
+        if (temp != Vector3.negativeInfinity) target = temp;
+
+        context.navMesh.destination = target;
+        context.StartCoroutine(CombatWalk(context));
     }
 
-    void Move(PlayerController context)
+    IEnumerator CombatWalk(PlayerController context)
     {
-        context.navMesh.destination = targetPoint;
+        while (context.navMesh.pathPending) yield return new WaitForEndOfFrame();
+
+        if (context.navMesh.remainingDistance > remainingDistance) distanceCheck = context.navMesh.remainingDistance - remainingDistance;
+        else remainingDistance -= context.navMesh.remainingDistance;
+
+        isWalking = true;
     }
 }

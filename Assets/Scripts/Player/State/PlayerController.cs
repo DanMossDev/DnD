@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
-    PlayerState currentState;
+    public PlayerState currentState;
     [HideInInspector] public PlayerIdleState idleState = new PlayerIdleState();
     [HideInInspector] public PlayerMoveState moveState = new PlayerMoveState();
     [HideInInspector] public PlayerStateCombatWait waitState = new PlayerStateCombatWait();
@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
     {
         navMesh = GetComponent<NavMeshAgent>();
         stats = GetComponent<Stats>();
-        currentState = idleState;
+        currentState = turnState;
         currentState.EnterState(this);
     }
 
@@ -40,14 +40,11 @@ public class PlayerController : MonoBehaviour
     {
         currentState.UpdateState(this);
     }
-
     public void ChangeState(PlayerState state)
     {
         currentState = state;
         currentState.EnterState(this);
     }
-
-
     void OnEnterCombat()
     {
         ChangeState(waitState);
