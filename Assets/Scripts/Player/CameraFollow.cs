@@ -20,7 +20,8 @@ public class CameraFollow : MonoBehaviour
         if (Input.mousePosition.x > Screen.width - 10 || Input.mousePosition.x < 10 || Input.mousePosition.y > Screen.height - 10 || Input.mousePosition.y < 10)
         {
             isLocked = false;
-            transform.position = Vector3.MoveTowards(transform.position, Utils.CalculateMousePosition(), cameraSpeed * Time.deltaTime);
+            Vector3 mousePos = Utils.CalculateMousePosition();
+            if (mousePos.x != Mathf.NegativeInfinity) transform.position = Vector3.MoveTowards(transform.position, mousePos, cameraSpeed * Time.deltaTime);
         }
         if (isLocked) 
         {
@@ -31,7 +32,6 @@ public class CameraFollow : MonoBehaviour
 
     public void OnLockCamera()
     {
-        print("Test");
         isLocked = true;
     }
 }

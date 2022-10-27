@@ -6,12 +6,12 @@ using System.Linq;
 public class CombatManager : MonoBehaviour
 {
     public List<GameObject> combatants = new List<GameObject>();
+    public GameObject currentTurn;
+    int i = 0;
 
     public static CombatManager Instance {get; private set;}
 
-    GameObject currentTurn;
-
-    void OnAwake()
+    void Awake()
     {
         if (Instance != null && Instance != this) Destroy(this);
         else Instance = this;
@@ -24,15 +24,19 @@ public class CombatManager : MonoBehaviour
 
     public void BeginCombat()
     {
-        combatants = combatants.OrderBy(combatant => combatant.GetComponent<Stats>().baseAgility).ToList<GameObject>();
-        currentTurn = combatants[0];
+        i = 0;
+        combatants = combatants.OrderByDescending(combatant => combatant.GetComponent<Stats>().baseAgility).ToList<GameObject>();
+        currentTurn = combatants[i];
         PlayerController Player = currentTurn.GetComponent<PlayerController>();
         EnemyController Enemy = currentTurn.GetComponent<EnemyController>();
         if (Player != null) currentTurn.GetComponent<PlayerController>().ChangeState(Player.turnState);
+        else Enemy.TakeTurn();
     }
 
     public void NextTurn()
     {
-
+        if (i < combatants.Count() - 1) i++;
+        else i = 0;
+        currentTurn = combatants[i];
     }
 }

@@ -22,4 +22,10 @@ public class PlayerMoveState : PlayerState
 
         if (context.navMesh.remainingDistance <= Mathf.Epsilon) context.ChangeState(context.idleState);
     }
+
+    public override void LeaveState(PlayerController context) 
+    {
+        context.navMesh.destination = context.gameObject.transform.position;
+    }
+
 }

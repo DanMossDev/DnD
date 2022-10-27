@@ -6,6 +6,7 @@ public class PlayerCastingState : PlayerState
 {
     float castRange;
     float splashRange;
+
     public override void EnterState(PlayerController context)
     {
         castRange = context.preppedSpell.castRange;
@@ -23,4 +24,6 @@ public class PlayerCastingState : PlayerState
             else context.ChangeState(context.waitState);
         }
     }
+
+    public override void LeaveState(PlayerController context) {}
 }

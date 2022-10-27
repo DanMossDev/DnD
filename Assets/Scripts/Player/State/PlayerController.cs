@@ -27,11 +27,16 @@ public class PlayerController : MonoBehaviour
     {
         GameStateCombat.OnEnterCombat += OnEnterCombat;
     }
+    void OnDisable() 
+    {
+        GameStateCombat.OnEnterCombat += OnEnterCombat;
+    }
+
     void Start()
     {
         navMesh = GetComponent<NavMeshAgent>();
         stats = GetComponent<Stats>();
-        currentState = turnState;
+        currentState = idleState;
         currentState.EnterState(this);
     }
 
@@ -42,11 +47,20 @@ public class PlayerController : MonoBehaviour
     }
     public void ChangeState(PlayerState state)
     {
+        currentState.LeaveState(this);
         currentState = state;
         currentState.EnterState(this);
     }
     void OnEnterCombat()
     {
+        CombatManager.Instance.combatants.Add(gameObject);
         ChangeState(waitState);
+        StartCoroutine(BeginCombat());
+    }
+
+    IEnumerator BeginCombat()
+    {
+        yield return new WaitForSeconds(0.1f);
+        CombatManager.Instance.BeginCombat();
     }
 }

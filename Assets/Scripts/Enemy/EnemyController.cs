@@ -15,13 +15,14 @@ public class EnemyController : MonoBehaviour
     public Vector3[] patrolPoints;
     public Ability[] spells;
     [SerializeField] Options option;
+    [SerializeField] LayerMask allyLayer;
 
     EnemyState currentState;
     [HideInInspector] public EnemyIdle idleState = new EnemyIdle();
     [HideInInspector] public EnemyAgro agroState = new EnemyAgro();
     [HideInInspector] public EnemyRanged rangedState = new EnemyRanged();
     [HideInInspector] public EnemyFlee fleeState = new EnemyFlee();
-    //[HideInInspector] public EnemyWait waitState = new EnemyWait();
+    [HideInInspector] public EnemyWait waitState = new EnemyWait();
 
 
     Vector3 startPoint;
@@ -46,23 +47,15 @@ public class EnemyController : MonoBehaviour
 
     public void EnterCombat()
     {
-        Collider[] nearbyAllies = Physics.OverlapSphere(transform.position, aggroRange * 2, gameObject.layer); //Checks for nearby game objects on the same layer in their aggro range doubled
-        foreach (Collider ally in nearbyAllies)
+        ChangeState(waitState);
+
+        if (GameController.Instance.currentState != GameController.Instance.combatState)
         {
-            ally.gameObject.GetComponent<EnemyController>().EnterCombat();
-        }
-        
-        switch (option)
-        {
-            case Options.Aggresive:
-                ChangeState(agroState);
-                break;
-            case Options.Ranged:
-                ChangeState(rangedState);
-                break;
+            CombatManager.Instance.InitCombat();
+            GameController.Instance.ChangeState(GameController.Instance.combatState);
         }
 
-        if (GameController.Instance.currentState != GameController.Instance.combatState) GameController.Instance.ChangeState(GameController.Instance.combatState);
+        CombatManager.Instance.combatants.Add(this.gameObject);
     }
 
     public void CheckForPlayer()
@@ -72,6 +65,25 @@ public class EnemyController : MonoBehaviour
         if (Physics.OverlapSphere(transform.position, aggroRange, LayerMask.GetMask("Player")).Length != 0) //checks if the player is within aggro range
         {
             EnterCombat();
+            Collider[] nearbyAllies = Physics.OverlapSphere(transform.position, aggroRange * 2, allyLayer); //Checks for nearby game objects on the same layer in their aggro range doubled
+            foreach (Collider ally in nearbyAllies)
+            {
+                ally.gameObject.GetComponent<EnemyController>().EnterCombat();
+            }
+        }
+    }
+
+
+    public void TakeTurn()
+    {
+        switch (option)
+        {
+            case Options.Aggresive:
+                ChangeState(agroState);
+                break;
+            case Options.Ranged:
+                ChangeState(rangedState);
+                break;
         }
     }
 }

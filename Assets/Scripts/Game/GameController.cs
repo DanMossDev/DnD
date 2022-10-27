@@ -25,7 +25,6 @@ public class GameController : MonoBehaviour
     private void Update()
     {
         currentState.UpdateState(this);
-        currentState.EnterState(this);
     }
 
     public void ChangeState(GameState state)

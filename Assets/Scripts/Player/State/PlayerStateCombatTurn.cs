@@ -11,7 +11,6 @@ public class PlayerStateCombatTurn : PlayerState
     public override void EnterState(PlayerController context)
     {
         remainingDistance = context.stats.Agility;
-        Debug.Log("Remaining Distance Init: " + remainingDistance);
     }
     public override void UpdateState(PlayerController context) 
     {
@@ -25,6 +24,9 @@ public class PlayerStateCombatTurn : PlayerState
         }
         if (context.navMesh.remainingDistance <= Mathf.Epsilon && remainingDistance > 0) isWalking = false;
     }
+
+    public override void LeaveState(PlayerController context) {}
+
 
     void WalkHere(PlayerController context)
     {
