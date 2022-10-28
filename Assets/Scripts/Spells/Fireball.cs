@@ -2,29 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Fireball : Ability
+public class Fireball : MonoBehaviour
 {
-    GameObject fireballInstance;
-    Vector3 targetPos;
+    [SerializeField] float SplashRadius = 5;
+    [SerializeField] float damageMultiplier = 1.5f;
+    [HideInInspector] public Stats stats;
+    [HideInInspector] public Vector3 targetPos;
+    int damage;
     Vector3 entryPos;
-    float lerp;
-    public override void Cast(Stats stats, Vector3 target, Transform startPos) 
+    float lerp = 0;
+    void Start()
     {
-        fireballInstance = Instantiate(PrefabHolder.Instance.fireball, startPos);
-        targetPos = target;
-        entryPos = startPos.position;
-        lerp = 0;
+        entryPos = transform.position;
+        damage = (int)(stats.Intelligence * damageMultiplier);
     }
 
+    // Update is called once per frame
     void Update()
     {
-        if (fireballInstance == null) return;
-        if (Vector3.Distance(fireballInstance.transform.position, targetPos) > 0.1f)
+        if (Vector3.Distance(transform.position, targetPos) > 0.1f)
         {
-            fireballInstance.transform.position = Vector3.Lerp(entryPos, targetPos, lerp);
+            transform.position = Vector3.Lerp(entryPos, targetPos, lerp);
             lerp += Time.deltaTime;
             return;
         }
-        Destroy(fireballInstance);
+        Collider[] collisions = Physics.OverlapSphere(transform.position, SplashRadius);
+        foreach (Collider collision in collisions)
+        {
+            Stats stats = collision.GetComponent<Stats>();
+
+            if (stats != null) stats.TakeDamage(damage);
+        }
+        Destroy(gameObject);
     }
 }

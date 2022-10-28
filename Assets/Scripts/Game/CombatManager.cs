@@ -27,10 +27,7 @@ public class CombatManager : MonoBehaviour
         i = 0;
         combatants = combatants.OrderByDescending(combatant => combatant.GetComponent<Stats>().baseAgility).ToList<GameObject>();
         currentTurn = combatants[i];
-        PlayerController Player = currentTurn.GetComponent<PlayerController>();
-        EnemyController Enemy = currentTurn.GetComponent<EnemyController>();
-        if (Player != null) currentTurn.GetComponent<PlayerController>().ChangeState(Player.turnState);
-        else Enemy.TakeTurn();
+        SetReady();
     }
 
     public void NextTurn()
@@ -38,5 +35,14 @@ public class CombatManager : MonoBehaviour
         if (i < combatants.Count() - 1) i++;
         else i = 0;
         currentTurn = combatants[i];
+        SetReady();
+    }
+
+    void SetReady()
+    {
+        PlayerController Player = currentTurn.GetComponent<PlayerController>();
+        EnemyController Enemy = currentTurn.GetComponent<EnemyController>();
+        if (Player != null) currentTurn.GetComponent<PlayerController>().ChangeState(Player.turnState);
+        else Enemy.TakeTurn();
     }
 }

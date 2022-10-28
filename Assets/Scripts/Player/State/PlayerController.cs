@@ -58,6 +58,13 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(BeginCombat());
     }
 
+    public void EndTurn()
+    {
+        ChangeState(waitState);
+        CombatManager.Instance.NextTurn();
+        //Consider adding a delay here? Maybe elsewhere would be better
+    }
+
     IEnumerator BeginCombat()
     {
         yield return new WaitForSeconds(0.1f);

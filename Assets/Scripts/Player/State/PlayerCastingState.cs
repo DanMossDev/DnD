@@ -21,7 +21,7 @@ public class PlayerCastingState : PlayerState
         {
             context.preppedSpell.Cast(context.stats, Utils.CalculateMousePosition(), context.transform);
             if (GameController.Instance.currentState == GameController.Instance.baseState) context.ChangeState(context.idleState);
-            else context.ChangeState(context.waitState);
+            else context.EndTurn();
         }
     }
 

@@ -39,4 +39,14 @@ public class Stats : MonoBehaviour
 
         MaxHP = Fortitude * 10;
     }
+
+    public void TakeDamage(int damage)
+    {
+        CurrentHP -= damage;
+        print(this.name + " " + CurrentHP);
+        if (CurrentHP <= 0)
+        {
+            //Die();
+        }
+    }
 }
