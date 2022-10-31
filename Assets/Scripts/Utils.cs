@@ -8,10 +8,16 @@ public static class Utils
     {
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
         {
             return hit.point;
         }
         return Vector3.negativeInfinity;
+    }
+
+    public static IEnumerator DelayEndTurn()
+    {
+        yield return new WaitForSeconds(1.5f);
+        CombatManager.Instance.NextTurn();
     }
 }

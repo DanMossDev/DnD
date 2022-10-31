@@ -9,6 +9,27 @@ public class HealthBar : MonoBehaviour
 
     public void UpdateHP(float ratio)
     {
-        bar.fillAmount = ratio;
+        StartCoroutine(ChangeHP(ratio, ratio < bar.fillAmount));
+    }
+
+    IEnumerator ChangeHP(float target, bool isReducing)
+    {
+        if (isReducing)
+        {
+            while (bar.fillAmount > target)
+            {
+                bar.fillAmount -= 0.01f;
+                yield return new WaitForEndOfFrame();
+            }
+            bar.fillAmount = target;
+        } else
+        {
+            while (bar.fillAmount < target)
+            {
+                bar.fillAmount += 0.01f;
+                yield return new WaitForEndOfFrame();
+            }
+            bar.fillAmount = target;
+        }
     }
 }

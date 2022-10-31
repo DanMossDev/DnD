@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Ability : MonoBehaviour
 {
-    public float castRange = 10;
-    public float splashRange = 1;
+    [System.NonSerialized] public float splashRange = 0;
+
     public abstract void Cast(Stats stats, Vector3 target, Transform startPos);
 }

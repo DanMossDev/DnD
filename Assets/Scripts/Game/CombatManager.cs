@@ -48,11 +48,12 @@ public class CombatManager : MonoBehaviour
 
     public void CheckEndCombat()
     {
-        if (combatants.Count == 1) EndCombat();
+        if (combatants.Count == 1) StartCoroutine(EndCombat());
     }
 
-    void EndCombat()
+    IEnumerator EndCombat()
     {
+        yield return new WaitForSeconds(1.75f);
         GameController.Instance.ChangeState(GameController.Instance.baseState);
     }
 }

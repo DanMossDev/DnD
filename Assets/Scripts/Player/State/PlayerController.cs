@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class PlayerController : MonoBehaviour
 {
     public PlayerState currentState;
+    public PlayerState previousState;
     [HideInInspector] public PlayerIdleState idleState = new PlayerIdleState();
     [HideInInspector] public PlayerMoveState moveState = new PlayerMoveState();
     [HideInInspector] public PlayerStateCombatWait waitState = new PlayerStateCombatWait();
@@ -17,6 +18,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public Ability preppedSpell;
     [HideInInspector] public Stats stats;
     [HideInInspector] public Canvas healthBar;
+    [HideInInspector] public float remainingDistance;
 
     public static PlayerController Instance {get; private set;}
 
@@ -54,6 +56,7 @@ public class PlayerController : MonoBehaviour
     }
     public void ChangeState(PlayerState state)
     {
+        previousState = currentState;
         currentState.LeaveState(this);
         currentState = state;
         currentState.EnterState(this);
@@ -73,8 +76,7 @@ public class PlayerController : MonoBehaviour
     public void EndTurn()
     {
         ChangeState(waitState);
-        CombatManager.Instance.NextTurn();
-        //Consider adding a delay here? Maybe elsewhere would be better
+        StartCoroutine(Utils.DelayEndTurn());
     }
 
     IEnumerator BeginCombat()

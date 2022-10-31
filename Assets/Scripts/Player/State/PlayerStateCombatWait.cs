@@ -7,6 +7,7 @@ public class PlayerStateCombatWait : PlayerState
     public override void EnterState(PlayerController context)
     {
         context.healthBar.enabled = true;
+        context.remainingDistance = context.stats.Agility;
     }
     public override void UpdateState(PlayerController context) 
     {}

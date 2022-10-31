@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
@@ -27,6 +28,11 @@ public class EnemyController : MonoBehaviour
     [HideInInspector] public EnemyWait waitState = new EnemyWait();
     [HideInInspector] public EnemyDead deathState = new EnemyDead();
 
+    [HideInInspector] public GameObject Player;
+    [HideInInspector] public NavMeshAgent navMesh;
+    [HideInInspector] public Stats stats;
+
+
     Rigidbody[] ragdollRigidbodies;
 
     Vector3 startPoint;
@@ -35,12 +41,15 @@ public class EnemyController : MonoBehaviour
     {
         ragdollRigidbodies = GetComponentsInChildren<Rigidbody>();
         ToggleRagdoll(true);
+        Player = FindObjectOfType<PlayerController>().gameObject;
     }
     void Start()
     {
         startPoint = transform.position;
         healthBar = GetComponentInChildren<Canvas>();
         healthBar.enabled = false;
+        navMesh = GetComponent<NavMeshAgent>();
+        stats = GetComponent<Stats>();
 
         ChangeState(idleState);
     }
@@ -96,6 +105,12 @@ public class EnemyController : MonoBehaviour
                 ChangeState(rangedState);
                 break;
         }
+    }
+
+    public void EndTurn()
+    {
+        ChangeState(waitState);
+        StartCoroutine(Utils.DelayEndTurn());
     }
 
     public void ToggleRagdoll(bool isAlive)

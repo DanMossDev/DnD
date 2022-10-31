@@ -4,17 +4,24 @@ using UnityEngine;
 
 public class Fireball : MonoBehaviour
 {
-    [SerializeField] float SplashRadius = 5;
-    [SerializeField] float damageMultiplier = 1.5f;
-    [HideInInspector] public Stats stats;
+    [HideInInspector] public float SplashRadius;
+    [HideInInspector] public float damageMultiplier = 1;
+    public Stats stats;
     [HideInInspector] public Vector3 targetPos;
-    int damage;
-    Vector3 entryPos;
+    [HideInInspector] public int damage;
+    [HideInInspector] public Vector3 entryPos;
     float lerp = 0;
     void Start()
     {
         entryPos = transform.position;
         damage = (int)(stats.Intelligence * damageMultiplier);
+    }
+
+    public void Init(Vector3 target, Stats _stats, float splashRange)
+    {
+        targetPos = target;
+        stats = _stats;
+        SplashRadius = splashRange;
     }
 
     // Update is called once per frame

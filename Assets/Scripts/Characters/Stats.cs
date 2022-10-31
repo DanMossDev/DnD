@@ -46,7 +46,7 @@ public class Stats : MonoBehaviour
         GetComponentInChildren<HealthBar>().UpdateHP((float)CurrentHP / (float)MaxHP);
 
         EnemyController Enemy = GetComponent<EnemyController>();
-        if (Enemy.currentState == Enemy.idleState) Enemy.EnterCombat();
+        if (Enemy && Enemy.currentState == Enemy.idleState) Enemy.EnterCombat();
         if (CurrentHP <= 0)
         {
             PlayerController Player = GetComponent<PlayerController>();
