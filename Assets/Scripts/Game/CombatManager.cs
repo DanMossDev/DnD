@@ -45,4 +45,14 @@ public class CombatManager : MonoBehaviour
         if (Player != null) currentTurn.GetComponent<PlayerController>().ChangeState(Player.turnState);
         else Enemy.TakeTurn();
     }
+
+    public void CheckEndCombat()
+    {
+        if (combatants.Count == 1) EndCombat();
+    }
+
+    void EndCombat()
+    {
+        GameController.Instance.ChangeState(GameController.Instance.baseState);
+    }
 }

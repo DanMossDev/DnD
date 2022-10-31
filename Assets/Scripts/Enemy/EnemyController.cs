@@ -17,18 +17,30 @@ public class EnemyController : MonoBehaviour
     [SerializeField] Options option;
     [SerializeField] LayerMask allyLayer;
 
-    EnemyState currentState;
+    [HideInInspector] public Canvas healthBar;
+
+    public EnemyState currentState;
     [HideInInspector] public EnemyIdle idleState = new EnemyIdle();
     [HideInInspector] public EnemyAgro agroState = new EnemyAgro();
     [HideInInspector] public EnemyRanged rangedState = new EnemyRanged();
     [HideInInspector] public EnemyFlee fleeState = new EnemyFlee();
     [HideInInspector] public EnemyWait waitState = new EnemyWait();
+    [HideInInspector] public EnemyDead deathState = new EnemyDead();
 
+    Rigidbody[] ragdollRigidbodies;
 
     Vector3 startPoint;
+
+    void Awake()
+    {
+        ragdollRigidbodies = GetComponentsInChildren<Rigidbody>();
+        ToggleRagdoll(true);
+    }
     void Start()
     {
         startPoint = transform.position;
+        healthBar = GetComponentInChildren<Canvas>();
+        healthBar.enabled = false;
 
         ChangeState(idleState);
     }
@@ -39,7 +51,7 @@ public class EnemyController : MonoBehaviour
         currentState.UpdateState(this);
     }
 
-    void ChangeState(EnemyState state)
+    public void ChangeState(EnemyState state)
     {
         currentState = state;
         currentState.EnterState(this);
@@ -64,7 +76,6 @@ public class EnemyController : MonoBehaviour
 
         if (Physics.OverlapSphere(transform.position, aggroRange, LayerMask.GetMask("Player")).Length != 0) //checks if the player is within aggro range
         {
-            EnterCombat();
             Collider[] nearbyAllies = Physics.OverlapSphere(transform.position, aggroRange * 2, allyLayer); //Checks for nearby game objects on the same layer in their aggro range doubled
             foreach (Collider ally in nearbyAllies)
             {
@@ -85,5 +96,10 @@ public class EnemyController : MonoBehaviour
                 ChangeState(rangedState);
                 break;
         }
+    }
+
+    public void ToggleRagdoll(bool isAlive)
+    {
+        foreach (Rigidbody rigidbody in ragdollRigidbodies) rigidbody.isKinematic = isAlive;
     }
 }

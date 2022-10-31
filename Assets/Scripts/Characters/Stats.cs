@@ -22,7 +22,6 @@ public class Stats : MonoBehaviour
 
     public int CurrentHP;
 
-
     void Awake() 
     {
         UpdateStats();
@@ -43,10 +42,20 @@ public class Stats : MonoBehaviour
     public void TakeDamage(int damage)
     {
         CurrentHP -= damage;
-        print(this.name + " " + CurrentHP);
+
+        GetComponentInChildren<HealthBar>().UpdateHP((float)CurrentHP / (float)MaxHP);
+
+        EnemyController Enemy = GetComponent<EnemyController>();
+        if (Enemy.currentState == Enemy.idleState) Enemy.EnterCombat();
         if (CurrentHP <= 0)
         {
-            //Die();
+            PlayerController Player = GetComponent<PlayerController>();
+            if (Player != null) Player.GameOver();
+            else {
+                Enemy.ChangeState(Enemy.deathState);
+                CombatManager.Instance.combatants.Remove(this.gameObject);
+                CombatManager.Instance.CheckEndCombat();
+            }
         }
     }
 }
