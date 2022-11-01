@@ -7,7 +7,7 @@ using TMPro;
 
 public class ActionButton : MonoBehaviour, IDropHandler
 {
-    public Ability CurrentSpell;
+    public Spell CurrentSpell;
     TextMeshProUGUI text;
 
     private void Start()
@@ -16,7 +16,7 @@ public class ActionButton : MonoBehaviour, IDropHandler
         if (CurrentSpell != null) text.text = CurrentSpell.ToString();
     }
 
-    void UpdateSpell(Ability newSpell)
+    void UpdateSpell(Spell newSpell)
     {
         CurrentSpell = newSpell;
         text.text = CurrentSpell.ToString();

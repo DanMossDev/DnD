@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     [SerializeField] Canvas canvas;
-    public Ability referenceAbility;
+    public Spell referenceAbility;
     CanvasGroup canvasGroup;
     RectTransform rectTransform;
     Vector2 startPos;

@@ -14,7 +14,7 @@ public class EnemyController : MonoBehaviour
     public bool isEnemy = false;
     public float aggroRange = 10;
     public Vector3[] patrolPoints;
-    public Ability[] spells;
+    public Spell[] spells;
     [SerializeField] Options option;
     [SerializeField] LayerMask allyLayer;
 
@@ -34,12 +34,13 @@ public class EnemyController : MonoBehaviour
 
 
     Rigidbody[] ragdollRigidbodies;
-
+    Animator animator;
     Vector3 startPoint;
 
     void Awake()
     {
         ragdollRigidbodies = GetComponentsInChildren<Rigidbody>();
+        animator = GetComponentInChildren<Animator>();
         ToggleRagdoll(true);
         Player = FindObjectOfType<PlayerController>().gameObject;
     }
@@ -107,6 +108,13 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    public void Cast(Vector3 target, Spell preppedSpell)
+    {
+        Spell spell = Instantiate(preppedSpell, transform);
+        spell.targetPos = target;
+        spell.stats = stats;
+    }
+
     public void EndTurn()
     {
         ChangeState(waitState);
@@ -115,6 +123,7 @@ public class EnemyController : MonoBehaviour
 
     public void ToggleRagdoll(bool isAlive)
     {
+        animator.enabled = isAlive;
         foreach (Rigidbody rigidbody in ragdollRigidbodies) rigidbody.isKinematic = isAlive;
     }
 }

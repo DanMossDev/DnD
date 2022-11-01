@@ -16,8 +16,8 @@ public class RangeIndicator : MonoBehaviour
             return;
         }
         else if (mesh.enabled == false) mesh.enabled = true;
-
-        transform.localScale = new Vector3(PlayerController.Instance.preppedSpell.splashRange * 2, 0.5f, PlayerController.Instance.preppedSpell.splashRange * 2);
+        float diameter = PlayerController.Instance.preppedSpell.SpellToCast.splashRadius * 2;
+        transform.localScale = new Vector3(diameter, 0.5f, diameter);
         transform.position = Utils.CalculateMousePosition();
     }
 }

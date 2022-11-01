@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
 
 
     [HideInInspector] public NavMeshAgent navMesh;
-    [HideInInspector] public Ability preppedSpell;
+    [HideInInspector] public Spell preppedSpell;
     [HideInInspector] public Stats stats;
     [HideInInspector] public Canvas healthBar;
     [HideInInspector] public float remainingDistance;
@@ -85,6 +85,13 @@ public class PlayerController : MonoBehaviour
         CombatManager.Instance.BeginCombat();
     }
 
+    public void Cast(Vector3 target)
+    {
+        Spell spell = Instantiate(preppedSpell, transform);
+        spell.targetPos = target;
+        spell.stats = stats;
+
+    }
 
     public void GameOver()
     {

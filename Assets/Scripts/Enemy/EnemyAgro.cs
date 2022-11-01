@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class EnemyAgro : EnemyState
 {
-    Ability currentAbility;
+    Spell currentSpell;
     Vector3 previousPosition;
     float remainingDistance;
     public override void EnterState(EnemyController context) 
     {
         previousPosition = context.transform.position;
         remainingDistance = context.stats.Agility;
-        currentAbility = context.spells[Random.Range(0, context.spells.Length)];
+        currentSpell = context.spells[Random.Range(0, context.spells.Length)];
 
         if (Vector3.Distance(context.Player.transform.position, context.transform.position) > context.navMesh.stoppingDistance) context.navMesh.destination = context.Player.transform.position;
     }
@@ -34,11 +34,11 @@ public class EnemyAgro : EnemyState
         if (distToPlayer <= context.stats.Perception * 2)
         {
             target = context.Player.transform.position;
-            while (Vector3.Distance(context.transform.position, target) <= currentAbility.splashRange + 1)
+            while (Vector3.Distance(context.transform.position, target) <= currentSpell.SpellToCast.splashRadius + 1)
             {
                 target += (target - context.transform.position) * 0.1f;
             }
-            currentAbility.Cast(context.stats, target, context.transform);
+            context.Cast(target, currentSpell);
         }
 
         context.EndTurn();
